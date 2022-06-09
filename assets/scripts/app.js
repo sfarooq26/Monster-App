@@ -8,6 +8,13 @@ let hasBonusLife = true;
 adjustHealthBars(chosenMaxLife);
 let playerHealthValue = +playerHealthBar.value
 
+function reset () {
+    if (!+monsterHealthBar.value ||
+        !+playerHealthBar.value) {
+        resetGame(  100);
+    }
+}
+
 function PlayersFate (damageValue) {
     const initialPlayerHealth = playerHealthValue;  //using var playerHealthValue in this funt only, .value in rest
     const playerDamage = dealPlayerDamage(damageValue);
@@ -41,10 +48,7 @@ else if (mode === 'STRONG_ATTACK') {
         }
     dealMonsterDamage(monsterDamageValue);
     PlayersFate(playerDamageValue);
-    if (!+monsterHealthBar.value ||
-        !+playerHealthBar.value) {
-        resetGame(  100);
-    }
+    reset();
 }
 
 function attackCommand() {
@@ -58,10 +62,7 @@ function StrongAttackCommand(){
 function healPlayer() {
     increasePlayerHealth(HEAL_VALUE);
     PlayersFate(MONSTER_ATTACH_VALUE);   //gets attacked with each click
-    if (!+monsterHealthBar.value ||
-        !+playerHealthBar.value) {
-        resetGame(  100);
-    }
+    reset();
 }
 attackBtn.addEventListener('click', attackCommand);
 healBtn.addEventListener('click', healPlayer);
