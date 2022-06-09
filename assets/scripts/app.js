@@ -7,10 +7,22 @@ let chosenMaxLife = 100;
 
 adjustHealthBars(chosenMaxLife);
 
+function PlayersFate (damageValue) {
+    dealPlayerDamage(damageValue);
+    if (+monsterHealthBar.value <= 0 && +playerHealthBar.value > 0) {
+        alert('You won!');
+    } else if (+playerHealthBar.value <= 0 && +monsterHealthBar.value > 0) {
+        alert('You lose')
+    } else if (+monsterHealthBar.value <= 0 && +playerHealthBar.value <= 0) {
+        alert("It's a draw");
+    }
+}
+
+
 function DamageMode(mode) {
     let monsterDamageValue;
     let playerDamageValue;
-    if (mode === "ATTACK"){
+    if (mode === "ATTACK") {
         monsterDamageValue = ATTACK_VALUE;
         playerDamageValue = MONSTER_ATTACH_VALUE;
     }
@@ -19,16 +31,7 @@ else if (mode === 'STRONG_ATTACK') {
         playerDamageValue = STRONG_MONSTER_ATTACK_VALUE;
         }
     dealMonsterDamage(monsterDamageValue);
-    dealPlayerDamage(playerDamageValue);
-    if (+monsterHealthBar.value <= 0 && +playerHealthBar.value > 0) {
-        alert('You won!');
-    }
-    else if (+playerHealthBar.value <= 0 && +monsterHealthBar.value > 0) {
-        alert('You lose')
-    }
-    else if (+monsterHealthBar.value <= 0 && +playerHealthBar.value <= 0){
-        alert("It's a draw");
-    }
+    PlayersFate(playerDamageValue);
     if (!+monsterHealthBar.value ||
         !+playerHealthBar.value) {
         resetGame(  100);
@@ -45,10 +48,8 @@ function StrongAttackCommand(){
 
 function healPlayer() {
     increasePlayerHealth(HEAL_VALUE);
+    PlayersFate(MONSTER_ATTACH_VALUE);
 }
-
-
-
 attackBtn.addEventListener('click', attackCommand);
 healBtn.addEventListener('click', healPlayer);
 strongAttackBtn.addEventListener('click',StrongAttackCommand);
