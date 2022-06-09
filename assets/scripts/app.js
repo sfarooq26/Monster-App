@@ -25,25 +25,18 @@ function DamageMode(mode) {
     if (mode === "ATTACK"){
         monsterDamageValue = ATTACK_VALUE;
         playerDamageValue = MONSTER_ATTACH_VALUE;
-        dealMonsterDamage(monsterDamageValue);
-        dealPlayerDamage(playerDamageValue);
-        alertResult();
-        if (!+monsterHealthBar.value ||
-            !+playerHealthBar.value) {
-            resetGame(  100);
-        }
     }
 else if (mode === 'STRONG_ATTACK') {
         monsterDamageValue = STRONG_ATTACK;
         playerDamageValue = STRONG_MONSTER_ATTACK_VALUE;
-        dealMonsterDamage(monsterDamageValue);
-        dealPlayerDamage(playerDamageValue);
-        alertResult();
         }
-        if (!+monsterHealthBar.value ||
-            !+playerHealthBar.value) {
-            resetGame(  100);
-        }
+    dealMonsterDamage(monsterDamageValue);
+    dealPlayerDamage(playerDamageValue);
+    alertResult();
+    if (!+monsterHealthBar.value ||
+        !+playerHealthBar.value) {
+        resetGame(  100);
+    }
 }
 
 function attackCommand() {
