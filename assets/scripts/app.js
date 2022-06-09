@@ -6,12 +6,12 @@ const HEAL_VALUE = 20;
 let chosenMaxLife = 100;
 let hasBonusLife = true;
 adjustHealthBars(chosenMaxLife);
-let playerHealthValue = +playerHealthBar.value
+let playerHealthValue = +playerHealthBar.value;
 
 function reset () {
-    if (!+monsterHealthBar.value ||
-        !+playerHealthBar.value) {
-        resetGame(  100);
+    if (+monsterHealthBar.value <= 0 ||
+        +playerHealthBar.value <= 0 ) {
+        resetGame(chosenMaxLife);
     }
 }
 
@@ -22,7 +22,7 @@ function PlayersFate (damageValue) {
     if (+playerHealthBar.value <= 0 && hasBonusLife) {
         hasBonusLife = false;
         removeBonusLife();
-        playerHealthValue = initialPlayerHealth;
+        playerHealthValue = initialPlayerHealth;            //smth is wrong here, after using bonus, draws rightaway
         setPlayerHealth(playerHealthValue);
         alert('Boi, your lucky day...just saved your *ss!')
     }
@@ -67,3 +67,10 @@ function healPlayer() {
 attackBtn.addEventListener('click', attackCommand);
 healBtn.addEventListener('click', healPlayer);
 strongAttackBtn.addEventListener('click',StrongAttackCommand);
+
+//function reset () {
+//     if (!+monsterHealthBar.value ||
+//         !+playerHealthBar.value) {
+//         resetGame(chosenMaxLife);
+//     }
+// }
