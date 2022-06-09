@@ -52,28 +52,11 @@ else if (mode === 'STRONG_ATTACK') {
 
 function attackCommand() {
     DamageMode('ATTACK');
-
 }
 
 function StrongAttackCommand(){
-    dealMonsterDamage(STRONG_ATTACK);
-    dealPlayerDamage(STRONG_MONSTER_ATTACK_VALUE);
-    if (+monsterHealthBar.value <= 0 && +playerHealthBar.value > 0) {
-        alert('You won!');
-    }
-    else if (+playerHealthBar.value <= 0 && +monsterHealthBar.value > 0) {
-        alert('You lose')
-    }
-    else if (+monsterHealthBar.value <= 0 && +playerHealthBar.value <= 0){
-        alert("It's a draw");
-    }
-    if (!+monsterHealthBar.value ||
-        !+playerHealthBar.value) {
-        resetGame(  100);
-    }
-
+    DamageMode('STRONG_ATTACK');
 }
-
 
 function healPlayer() {
     increasePlayerHealth(HEAL_VALUE);
