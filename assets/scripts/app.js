@@ -25,48 +25,48 @@ adjustHealthBars(chosenMaxLife);
 
 let playerHealthValue = +playerHealthBar.value;
 
-function writeToLog (event, target, value, playerHealth) {
-    let logEntry;
-    if (logEntry === LOG_MONSTER_ATTACK) {
-        logEntry = {
-            event: event,
-            target: 'Player',
-            value: value,
-            finalPlayerHealth: playerHealth,
-            finalMonsterHealth: monsterHealth,
-        }
-        battlelog.push(logEntry);
-        if (logEntry === LOG_STRONG_MONSTER_ATTACK) {
-            logEntry = {
-                event: event,
-                target: 'Player',
-                value: value,
-                finalPlayerHealth: playerHealth,
-                finalMonsterHealth: monsterHealth,
-            }
-            battlelog.push(logEntry);
-            if ()
-        }
+function writeToLog (event, value, playerHealth, monsterHealth) {
+    let logEntry = {
+        event: event,
+        value: value,
+        finalPlayerHealth: playerHealth,
+        finalMonsterHealth: monsterHealth,
     }
-}
+    if (event === LOG_MONSTER_ATTACK) {
+        logEntry.target = 'Player';
+        }
+    if (event === LOG_STRONG_MONSTER_ATTACK) {
+        logEntry.target = 'Player';
+        }
+    if (event === LOG_PLAYER_ATTACK) {
+        logEntry.target = 'Monster';
+    }
+    if (event === LOG_PLAYER_STRONG_ATTACK) {
+        logEntry.target = 'Monster';
+    }
+    battlelog.push(logEntry);
+    }
+
+
 
 
 function reset () {
     if (+monsterHealthBar.value <= 0 ||
         +playerHealthBar.value <= 0 ) {
         resetGame(chosenMaxLife);
+        writeToLog(LOG_GAME_OVER, 'Reset', playerHealthBar.value, monsterHealthBar.value);
     }
 }
 
-function PlayersFate (damageValue) {
+function PlayersFate (damageValue, attackMode) {
     const initialPlayerHealth = playerHealthValue;  //using var playerHealthValue in this funt only, .value in rest
     const playerDamage = dealPlayerDamage(damageValue);
  /*   playerHealthValue -= playerDamage;*/
     if (+playerHealthBar.value <= 0 && hasBonusLife) {
         hasBonusLife = false;
         removeBonusLife();
-        playerHealthValue = +playerHealthBar.value;
         playerHealthValue = initialPlayerHealth;            //smth is wrong here, after using bonus, draws rightaway
+        playerHealthValue = +playerHealthBar.value;
         setPlayerHealth(playerDamage);
         alert('Boi, your lucky day...just saved your *ss!')
     }
@@ -77,21 +77,30 @@ function PlayersFate (damageValue) {
     } else if (+monsterHealthBar.value <= 0 && +playerHealthBar.value <= 0) {
         alert("It's a draw");
     }
+    writeToLog(attackMode, playerDamage, playerHealthValue, monsterHealthBar.value );
 }
 
 function DamageMode(mode) {
     let monsterDamageValue;
     let playerDamageValue;
+    let playerAttackMode;
+    let monsterAttackMode;
     if (mode === attackMode) {
         monsterDamageValue = ATTACK_VALUE;
         playerDamageValue = MONSTER_ATTACH_VALUE;
+        playerAttackMode = LOG_PLAYER_ATTACK;
+        monsterAttackMode = LOG_MONSTER_ATTACK;
     }
 else if (mode === strongAttackMode) {
         monsterDamageValue = STRONG_ATTACK;
         playerDamageValue = STRONG_MONSTER_ATTACK_VALUE;
+        playerAttackMode = LOG_PLAYER_STRONG_ATTACK
+        monsterAttackMode = LOG_STRONG_MONSTER_ATTACK;
         }
     dealMonsterDamage(monsterDamageValue);
-    PlayersFate(playerDamageValue);
+    writeToLog(playerAttackMode, monsterDamageValue, playerHealthValue, monsterHealthBar.value )   //Check later if playerHealthValue ok
+    PlayersFate(playerDamageValue, monsterAttackMode);
+
     reset();
 }
 
@@ -106,12 +115,14 @@ function StrongAttackCommand(){
 function healPlayer() {
     increasePlayerHealth(HEAL_VALUE);
     PlayersFate(MONSTER_ATTACH_VALUE);   //gets attacked with each click
+
     reset();
 }
 
 attackBtn.addEventListener('click', attackCommand);
 healBtn.addEventListener('click', healPlayer);
 strongAttackBtn.addEventListener('click',StrongAttackCommand);
+logBtn.addEventListener('click', )
 
 //function reset () {
 //     if (!+monsterHealthBar.value ||
