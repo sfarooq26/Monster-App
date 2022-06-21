@@ -115,14 +115,17 @@ function StrongAttackCommand(){
 function healPlayer() {
     increasePlayerHealth(HEAL_VALUE);
     PlayersFate(MONSTER_ATTACH_VALUE);   //gets attacked with each click
-
+    writeToLog(LOG_PLAYER_HEAL, HEAL_VALUE, playerHealthValue, monsterHealthBar.value );
     reset();
 }
-
+b
+function printLogHandler() {
+    console.log(battlelog);
+}
 attackBtn.addEventListener('click', attackCommand);
 healBtn.addEventListener('click', healPlayer);
 strongAttackBtn.addEventListener('click',StrongAttackCommand);
-logBtn.addEventListener('click', )
+logBtn.addEventListener('click', printLogHandler);
 
 //function reset () {
 //     if (!+monsterHealthBar.value ||
