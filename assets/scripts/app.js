@@ -99,6 +99,7 @@ else if (mode === strongAttackMode) {
         }
     dealMonsterDamage(monsterDamageValue);
     writeToLog(playerAttackMode, monsterDamageValue, playerHealthValue, monsterHealthBar.value )   //Check later if playerHealthValue ok
+    //smth is not right, both player and monster attack logs are showing at one click(attack)
     PlayersFate(playerDamageValue, monsterAttackMode);
 
     reset();
@@ -118,7 +119,6 @@ function healPlayer() {
     writeToLog(LOG_PLAYER_HEAL, HEAL_VALUE, playerHealthValue, monsterHealthBar.value );
     reset();
 }
-b
 function printLogHandler() {
     console.log(battlelog);
 }
