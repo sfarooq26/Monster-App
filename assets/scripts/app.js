@@ -48,8 +48,6 @@ function writeToLog (event, value, playerHealth, monsterHealth) {
     }
 
 
-
-
 function reset () {
     if (+monsterHealthBar.value <= 0 ||
         +playerHealthBar.value <= 0 ) {
@@ -61,7 +59,7 @@ function reset () {
 function PlayersFate (damageValue, attackMode) {
     const initialPlayerHealth = playerHealthValue;  //using var playerHealthValue in this funt only, .value in rest
     const playerDamage = dealPlayerDamage(damageValue);
- /*   playerHealthValue -= playerDamage;*/
+    playerHealthValue -= playerDamage;              // when removed causes error.
     if (+playerHealthBar.value <= 0 && hasBonusLife) {
         hasBonusLife = false;
         removeBonusLife();
