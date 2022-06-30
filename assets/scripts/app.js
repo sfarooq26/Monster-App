@@ -24,6 +24,7 @@ let hasBonusLife = true;
 adjustHealthBars(chosenMaxLife);
 
 let playerHealthValue = +playerHealthBar.value;
+let monsterHealthValue = +monsterHealthBar.value;
 
 function writeToLog (event, value, playerHealth, monsterHealth) {
     let logEntry = {
@@ -95,8 +96,9 @@ else if (mode === strongAttackMode) {
         playerAttackMode = LOG_PLAYER_STRONG_ATTACK
         monsterAttackMode = LOG_STRONG_MONSTER_ATTACK;
         }
-    dealMonsterDamage(monsterDamageValue);
-    writeToLog(playerAttackMode, monsterDamageValue, playerHealthValue, monsterHealthBar.value )   //Check later if playerHealthValue ok
+    const damage = dealMonsterDamage(monsterDamageValue);       //correction
+/*    monsterHealthValue -= damage;*/  //Redundant...can use monsterHealthBar.value from calling dealMonsterDamage();
+    writeToLog(playerAttackMode, damage, playerHealthValue, monsterHealthBar.value )   //Check later if playerHealthValue ok
     //smth is not right, both player and monster attack logs are showing at one click(attack)
     PlayersFate(playerDamageValue, monsterAttackMode);
 
