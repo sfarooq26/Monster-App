@@ -10,6 +10,7 @@ const LOG_STRONG_MONSTER_ATTACK = 'Monster strong attack';
 const LOG_PLAYER_ATTACK = 'Player attacks';
 const LOG_PLAYER_STRONG_ATTACK = 'Strong player attack';
 const LOG_PLAYER_HEAL = 'Player Heals';
+const LOG_MONSTER_ATTACK_HEALING = 'Monster attacks on healing';
 const LOG_GAME_OVER = 'Game Over!';
 let battlelog = [];
 
@@ -105,23 +106,27 @@ else if (mode === strongAttackMode) {
     reset();
 }
 
+
+
+function healPlayer() {
+    increasePlayerHealth(HEAL_VALUE);
+    PlayersFate(MONSTER_ATTACH_VALUE, LOG_MONSTER_ATTACK_HEALING);   //gets attacked with each click
+    writeToLog(LOG_PLAYER_HEAL, HEAL_VALUE, playerHealthValue, monsterHealthBar.value );
+    reset();
+}
+
 function attackCommand() {
     DamageMode(attackMode);
 }
 
-function StrongAttackCommand(){
-    DamageMode(strongAttackMode);
-}
+    function StrongAttackCommand() {
+        DamageMode(strongAttackMode);
+    }
 
-function healPlayer() {
-    increasePlayerHealth(HEAL_VALUE);
-    PlayersFate(MONSTER_ATTACH_VALUE);   //gets attacked with each click
-    writeToLog(LOG_PLAYER_HEAL, HEAL_VALUE, playerHealthValue, monsterHealthBar.value );
-    reset();
-}
 function printLogHandler() {
     console.log(battlelog);
 }
+
 attackBtn.addEventListener('click', attackCommand);
 healBtn.addEventListener('click', healPlayer);
 strongAttackBtn.addEventListener('click',StrongAttackCommand);
