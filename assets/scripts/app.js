@@ -24,7 +24,7 @@ let hasBonusLife = true;
 
 adjustHealthBars(chosenMaxLife);
 
-let playerHealthValue = +playerHealthBar.value;
+let playerHealthValue = +playerHealthBar.value;         //both player/monster bar and actual values in equal
 let monsterHealthValue = +monsterHealthBar.value;
 
 function writeToLog (event, value, playerHealth, monsterHealth) {
@@ -46,6 +46,9 @@ function writeToLog (event, value, playerHealth, monsterHealth) {
     if (event === LOG_PLAYER_STRONG_ATTACK) {
         logEntry.target = 'Monster';
     }
+        if (event === LOG_MONSTER_ATTACK_HEALING) {
+            logEntry.target = 'Player';
+    }
     battlelog.push(logEntry);
     }
 
@@ -65,7 +68,7 @@ function PlayersFate (damageValue, attackMode) {
     if (+playerHealthBar.value <= 0 && hasBonusLife) {
         hasBonusLife = false;
         removeBonusLife();
-        playerHealthValue = initialPlayerHealth;            //smth is wrong here, after using bonus, draws rightaway
+        playerHealthValue = initialPlayerHealth;            //smth is wrong here, after using bonus, draws rightaway, corrected
         playerHealthValue = +playerHealthBar.value;
         setPlayerHealth(playerDamage);
         alert('Boi, your lucky day...just saved your *ss!')
@@ -98,7 +101,7 @@ else if (mode === strongAttackMode) {
         monsterAttackMode = LOG_STRONG_MONSTER_ATTACK;
         }
     const damage = dealMonsterDamage(monsterDamageValue);       //correction
-/*    monsterHealthValue -= damage;*/  //Redundant...can use monsterHealthBar.value from calling dealMonsterDamage();
+    monsterHealthValue -= damage;  //Redundant...can use monsterHealthBar.value from calling dealMonsterDamage();
     writeToLog(playerAttackMode, damage, playerHealthValue, monsterHealthBar.value )   //Check later if playerHealthValue ok
     //smth is not right, both player and monster attack logs are showing at one click(attack)
     PlayersFate(playerDamageValue, monsterAttackMode);
@@ -108,10 +111,19 @@ else if (mode === strongAttackMode) {
 
 
 
-function healPlayer() {
-    increasePlayerHealth(HEAL_VALUE);
+function healPlayer() { // There's no link bw player health bar and actual health...and health value exceeds 100, calculates value correctly
+    let healValue;
+    if (playerHealthValue >= chosenMaxLife - HEAL_VALUE) {
+        alert("Can't heal to more than max initial health");
+        healValue = chosenMaxLife - playerHealthValue;
+    }
+    else {
+        healValue = HEAL_VALUE;
+    }
+    increasePlayerHealth(healValue);
     PlayersFate(MONSTER_ATTACH_VALUE, LOG_MONSTER_ATTACK_HEALING);   //gets attacked with each click
-    writeToLog(LOG_PLAYER_HEAL, HEAL_VALUE, playerHealthValue, monsterHealthBar.value );
+    playerHealthValue += healValue;
+    writeToLog(LOG_PLAYER_HEAL, healValue, playerHealthValue, monsterHealthBar.value );
     reset();
 }
 
