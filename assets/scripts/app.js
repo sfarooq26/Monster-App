@@ -84,6 +84,20 @@ function PlayersFate (damageValue, attackMode) {
 }
 
 function DamageMode(mode) {
+    const monsterDamageValue = mode === attackMode ? ATTACK_VALUE:STRONG_ATTACK
+    const playerDamageValue = mode === attackMode ? MONSTER_ATTACH_VALUE:STRONG_MONSTER_ATTACK_VALUE
+    const playerAttackMode = mode === attackMode ? LOG_PLAYER_ATTACK:LOG_PLAYER_STRONG_ATTACK
+    const monsterAttackMode = mode === attackMode ? LOG_MONSTER_ATTACK:LOG_STRONG_MONSTER_ATTACK
+    const damage = dealMonsterDamage(monsterDamageValue);       //correction
+    monsterHealthValue -= damage;  //Redundant...can use monsterHealthBar.value from calling dealMonsterDamage();
+    writeToLog(playerAttackMode, damage, playerHealthValue, monsterHealthBar.value )   //Check later if playerHealthValue ok
+    //smth is not right, both player and monster attack logs are showing at one click(attack)
+    PlayersFate(playerDamageValue, monsterAttackMode);
+
+    reset();
+}
+
+/*function DamageMode(mode) {
     let monsterDamageValue;
     let playerDamageValue;
     let playerAttackMode;
@@ -107,7 +121,7 @@ else if (mode === strongAttackMode) {
     PlayersFate(playerDamageValue, monsterAttackMode);
 
     reset();
-}
+}*/
 
 
 
